@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Switch, TextInput, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import axios from 'axios';
+// import axios from 'axios';
 
 const DashboardScreen = () => {
   const [autoMode, setAutoMode] = useState(true);
