@@ -8,18 +8,18 @@ const DashboardScreen = () => {
   const [maxLight, setMaxLight] = useState('800');
   const [devices, setDevices] = useState([]);
 
-  useEffect(() => {
-    fetchDevices();
-  }, []);
+  // useEffect(() => {
+  //   fetchDevices();
+  // }, []);
 
-  const fetchDevices = async () => {
-    try {
-      const response = await axios.get('https://api.example.com/devices');
-      setDevices(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchDevices = async () => {
+  //   try {
+  //     const response = await axios.get('https://api.example.com/devices');
+  //     setDevices(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -28,19 +28,22 @@ const DashboardScreen = () => {
         <View style={styles.sensorBox}>
           <Text style={styles.sensorTitle}>Light</Text>
           <Text style={styles.sensorValue}>500 cd</Text>
+          {/* <Text style={styles.sensorValue}>{dashboardData.lightIntensity} cd</Text> */}
         </View>
         <View style={styles.sensorBox}>
           <Text style={styles.sensorTitle}>Temperature</Text>
           <Text style={styles.sensorValue}>26 °C</Text>
+          {/* <Text style={styles.sensorValue}>{dashboardData.temperature} °C</Text> */}
         </View>
         <View style={styles.sensorBox}>
           <Text style={styles.sensorTitle}>Humidity</Text>
           <Text style={styles.sensorValue}>50 %</Text>
+          {/* <Text style={styles.sensorValue}>{dashboardData.humidity} %</Text> */}
         </View>
       </View>
       <View style={styles.autoModeContainer}>
         <Text style={styles.autoModeText}>Auto Mode</Text>
-        <Switch 
+        <Switch thumbColor={"#45b6fe"} 
           value={autoMode}
           onValueChange={(value) => setAutoMode(value)}
         />
@@ -80,28 +83,13 @@ const DashboardScreen = () => {
                 <Text style={styles.deviceBrand}>{item.brand}</Text>
                 <Switch
                   value={item.status}
-                  onValueChange={(value) => {
-                  }}
+                  // onValueChange={(value) => handleDeviceStatusChange(item.id, value)}
                 />
               </View>
             )}
           />
         </View>
       )}
-      {/* <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navItem}>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text style={styles.navText}>History</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text style={styles.navText}>Messages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };
@@ -197,19 +185,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  // navBar: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-around',
-  //   paddingVertical: 10,
-  //   borderTopWidth: 1,
-  //   borderColor: '#ccc',
-  // },
-  // navItem: {
-  //   alignItems: 'center',
-  // },
-  // navText: {
-  //   fontSize: 16,
-  // },
 });
 
 export default DashboardScreen;
