@@ -13,6 +13,7 @@ import MessageScreen from "@/views/MessageScreen";
 import ProfileScreen from "@/views/ProfileScreen";
 import DeviceScreen from "@/views/DeviceScreen";
 import DashboardScreen from "@/views/DashboardScreen";
+import { View } from "react-native";
 // import AddScreen from "@/views/AddScreen"; // Assuming you have an AddScreen component
 
 const Tab = createBottomTabNavigator();
@@ -60,16 +61,19 @@ export default function BottomBarNavigation() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="plus-circle"
-              size={size}
-              color={color}
+            <View
               style={{
                 backgroundColor: "#007AFF",
-                borderRadius: 50,
+                borderRadius: 100,
                 padding: 5,
               }}
-            />
+            >
+              <MaterialCommunityIcons
+                name="plus-circle"
+                size={size + 5}
+                color={"#FFFFFF"}
+              />
+            </View>
           ),
           tabBarLabel: () => null, // Hide the label
         }}

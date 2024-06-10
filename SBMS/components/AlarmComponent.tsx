@@ -25,9 +25,9 @@ const AlarmComponent = () => {
         </View>
       </View>
       <View style={styles.alarmBox}>
-        <Text style={styles.alarmTime}>06:00</Text>
+        <Text style={styles.alarmTime}>07:00</Text>
         <View style={styles.alarmDetails}>
-          <Text style={styles.alarmLabel}>Wake up</Text>
+          <Text style={styles.alarmLabel}>Go to school</Text>
           <Switch
             value={alarmEnabled}
             onValueChange={setAlarmEnabled}
