@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   const [devices, setDevices] = useState([
     { id: "1", name: "Light 1", brand: "Rạng Đông", status: true },
     { id: "2", name: "Fan 1", brand: "Panasonic", status: false },
@@ -53,14 +53,38 @@ const DashboardScreen = () => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleDateString("en-US", options);
   };
+  const handlePressDeviceDetails = () => {
+    navigation.navigate("DeviceScreen");
+  };
+  const handlePressAlarmDetails = () => {
+    navigation.navigate("DeviceScreen");
+  };
 
   const currentDate = getCurrentDate();
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>My bedroom</Text>
-        <Text style={styles.subHeader}>{currentDate} | 1 Tạ Quang Bửu</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignContent: "center",
+          alignItems: "center",
+          gap: 10,
+          paddingBottom: 10,
+        }}
+      >
+        <Ionicons name="bed-outline" size={32} color="black" />
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>My bedroom</Text>
+          <Text style={styles.subHeader}>{currentDate} | 1 Tạ Quang Bửu</Text>
+        </View>
+      </View>
+      <View style={styles.headerDeviceContainer}>
+        <Text style={styles.header}>Dashboard</Text>
+        <TouchableOpacity onPress={handlePressAlarmDetails}>
+          <Text style={styles.detailsButton}>Details {">"}</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.dashboardContainer}>
         <View style={styles.dashboardBox}>
@@ -94,7 +118,19 @@ const DashboardScreen = () => {
           <Text style={styles.dashboardValue}>50 %</Text>
         </View>
       </View>
+      <View style={styles.headerDeviceContainer}>
+        <Text style={styles.header}>Alarms</Text>
+        <TouchableOpacity onPress={handlePressAlarmDetails}>
+          <Text style={styles.detailsButton}>Details {">"}</Text>
+        </TouchableOpacity>
+      </View>
       <AlarmComponent />
+      <View style={styles.headerDeviceContainer}>
+        <Text style={styles.header}>Devices</Text>
+        <TouchableOpacity onPress={handlePressDeviceDetails}>
+          <Text style={styles.detailsButton}>Details {">"}</Text>
+        </TouchableOpacity>
+      </View>
       <DeviceComponent />
     </View>
   );
@@ -105,6 +141,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 20,
+  },
+  headerDeviceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerContainer: {
     marginTop: 20,
@@ -158,6 +199,11 @@ const styles = StyleSheet.create({
   },
   devicesContainer: {
     marginBottom: 20,
+  },
+  detailsButton: {
+    fontSize: 16,
+    color: "#007AFF",
+    fontWeight: "bold",
   },
   deviceBox: {
     flexDirection: "row",

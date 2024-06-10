@@ -96,7 +96,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity className="bg-[#fafafa] flex px-5 py-4 mx-5 rounded-3xl shadow mt-[40px] items-center justify-center">
-        <Text className="text-[#ff0000] text-lg font-semibold">Login</Text>
+        <Text className="text-[#ff0000] text-lg font-semibold">Log out</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

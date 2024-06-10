@@ -1,18 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from "react-native";
 
-const DeviceComponent = () => {
+const DeviceComponent = ({ navigation }: any) => {
   const [lightEnabled, setLightEnabled] = React.useState(true);
   const [fanEnabled, setFanEnabled] = React.useState(false);
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>Devices</Text>
-        <TouchableOpacity>
-          <Text style={styles.detailsButton}>Details {">"}</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.deviceContainer}>
         <View style={styles.deviceBox}>
           <View style={styles.deviceIconContainer}>
@@ -59,6 +53,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     fontWeight: "bold",
+    marginBottom: 10,
   },
   detailsButton: {
     fontSize: 16,

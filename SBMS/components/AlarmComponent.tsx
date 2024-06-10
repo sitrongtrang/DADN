@@ -6,12 +6,6 @@ const AlarmComponent = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>Alarms</Text>
-        <TouchableOpacity>
-          <Text style={styles.detailsButton}>Details {">"}</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.alarmBox}>
         <Text style={styles.alarmTime}>06:00</Text>
         <View style={styles.alarmDetails}>
