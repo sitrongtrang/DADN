@@ -44,6 +44,14 @@ const WelcomeScreen = () => {
                 <Text className="font-bold text-white text-lg">Login</Text>
               </TouchableOpacity>
             </View>
+            <View className="items-center justify-center mt-10">
+              <TouchableOpacity
+                className="w-[85vw] h-[55] bg-[#2666DE] shadow-lg shadow-slate-100 items-center justify-center rounded-2xl"
+                onPress={() => navigation.navigate("Signup")}
+              >
+                <Text className="font-bold text-white text-lg">Signup</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ImageBackground>

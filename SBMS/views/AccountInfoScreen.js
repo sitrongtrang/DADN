@@ -6,17 +6,65 @@ import {
     TouchableOpacity,
     TextInput,
   } from "react-native";
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
-
+import { AuthContext } from '../context/AuthContext';
 
   const AccountInfoScreen = () => {
-    const [fullname, setFullname] = useState('Doraemon');
-    const [email, setEmail] = useState('sbms@gmail.com');
-    const [password, setPassword] = useState('12345678');
-    const [phone, setPhone] = useState('0123456789');
-    const [region, setRegion] = useState('Việt Nam');
+    const navigation = useNavigation();
+    const { token } = useContext(AuthContext);
+    const [fullname, setFullname] = useState();
+    const [email, setEmail] = useState();
+    const [phone, setPhone] = useState();
+    const [region, setRegion] = useState();
+    const [loading, setLoading] = useState(true);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get("http://localhost:9000/api/user/profile",{
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.status >=200 && response.status<400) {
+                console.log(response.data.message);
+                const user = response.data.user
+                setEmail(user.email)
+                setFullname(user.fullname)
+                setPhone(user.phone)
+                setRegion(user.region)
+            
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                // Token is invalid
+                // Clear the token and navigate to the login screen
+                setToken(null); // Clear the token from state or storage
+                navigation.navigate("Login"); // Navigate to the login screen
+            } else {
+                console.error("Error fetching user data", error);
+            }
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    
+    useEffect(() => {
+        fetchData();
+      }, []);
+    
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
 
     return (
       <SafeAreaView className="flex-1 bg-white mb-[70]">
@@ -41,14 +89,6 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
                 <TextInput
                     value={email}
                     onChangeText={setEmail}
-                />
-            </View>
-            <View className="border-b-[1px] border-[#ccc] w-full p-3 flex flex-row items-center justify-between">
-                <Text>Password:</Text>
-                <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true}
                 />
             </View>
             <View className="border-b-[1px] border-[#ccc] w-full p-3 flex flex-row items-center justify-between">
