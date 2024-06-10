@@ -8,8 +8,11 @@ import {
   Image,
 } from "react-native";
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 
 const WelcomeScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView className="flex-1 h-vh bg-slate-100">
       <StatusBar barStyle={"opaque"} backgroundColor="black"></StatusBar>

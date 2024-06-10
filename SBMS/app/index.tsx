@@ -14,9 +14,11 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <Stack.Navigator initialRouteName="Devices">
-      <Stack.Screen name="Devices" component={DeviceScreen} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen}/>
+      <Stack.Screen name="Login" component={LoginScreen}/>
+      {/* <Stack.Screen name="Devices" component={DeviceScreen} />
       <Stack.Screen name="FanDetail" component={FanDetailScreen} />
-      <Stack.Screen name="LightDetail" component={LightDetailScreen} />
+      <Stack.Screen name="LightDetail" component={LightDetailScreen} /> */}
     </Stack.Navigator>
   );
 };
