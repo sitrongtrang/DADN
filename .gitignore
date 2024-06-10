@@ -1,0 +1,4 @@
+# Ignore .history file
+.history
+# Ignore .history folder
+.history/
