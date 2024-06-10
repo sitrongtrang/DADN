@@ -5,11 +5,13 @@ import MessageScreen from "../views/MessageScreen";
 import DashboardScreen from "../views/DashboardScreen";
 import DeviceScreen from "../views/DeviceScreen";
 import LoginScreen from "../views/LoginScreen";
+import AlarmScreen from "../views/AlarmScreen";
 import WelcomeScreen from "../views/WelcomeScreen";
 import FanDetailScreen from "../views/FanDetailScreen";
 import LightDetailScreen from "../views/LightDetailScreen";
 import BottomBarNavigation from "@/components/navigation/BottomBarNavigation";
 import { SafeAreaView } from "react-native";
+import DeviceComponent from "@/components/DeviceComponent";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,8 +24,10 @@ const App = () => {
         options={{ headerShown: false }}
       />
 
-      {/* <Stack.Screen name="Devices" component={DeviceScreen} />
-      <Stack.Screen name="FanDetail" component={FanDetailScreen} />
+      <Stack.Screen name="DeviceScreen" component={DeviceScreen} />
+      {/* <Stack.Screen name="AlarmScreen" component={AlarmScreen} /> */}
+
+      {/* <Stack.Screen name="FanDetail" component={FanDetailScreen} />
       <Stack.Screen name="LightDetail" component={LightDetailScreen} /> */}
     </Stack.Navigator>
   );

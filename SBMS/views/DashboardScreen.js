@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Switch, TextInput, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-// import axios from 'axios';
+import AlarmComponent from "@/components/AlarmComponent";
+import DeviceComponent from "@/components/DeviceComponent";
+import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Switch,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
-const DashboardScreen = () => {
-  const [autoMode, setAutoMode] = useState(true);
-  const [minLight, setMinLight] = useState('200');
-  const [maxLight, setMaxLight] = useState('800');
-  const [devices, setDevices] = useState([]);
+const DashboardScreen = ({ navigation }) => {
+  const [devices, setDevices] = useState([
+    { id: "1", name: "Light 1", brand: "Rạng Đông", status: true },
+    { id: "2", name: "Fan 1", brand: "Panasonic", status: false },
+  ]);
 
+  // Uncomment and use this useEffect for fetching devices from an API
   // useEffect(() => {
   //   fetchDevices();
   // }, []);
@@ -21,75 +31,107 @@ const DashboardScreen = () => {
   //   }
   // };
 
+  const renderDevice = ({ item }) => (
+    <View style={styles.deviceBox}>
+      <View>
+        <Text style={styles.deviceName}>{item.name}</Text>
+        <Text style={styles.deviceBrand}>{item.brand}</Text>
+      </View>
+      <Switch
+        value={item.status}
+        onValueChange={(value) => {
+          const updatedDevices = devices.map((device) =>
+            device.id === item.id ? { ...device, status: value } : device
+          );
+          setDevices(updatedDevices);
+        }}
+      />
+    </View>
+  );
+  const getCurrentDate = () => {
+    const date = new Date();
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  };
+  const handlePressDeviceDetails = () => {
+    navigation.navigate("DeviceScreen");
+  };
+  const handlePressAlarmDetails = () => {
+    navigation.navigate("DeviceScreen");
+  };
+
+  const currentDate = getCurrentDate();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Dashboard</Text>
-      <View style={styles.sensorContainer}>
-        <View style={styles.sensorBox}>
-          <Text style={styles.sensorTitle}>Light</Text>
-          <Text style={styles.sensorValue}>500 cd</Text>
-          {/* <Text style={styles.sensorValue}>{dashboardData.lightIntensity} cd</Text> */}
-        </View>
-        <View style={styles.sensorBox}>
-          <Text style={styles.sensorTitle}>Temperature</Text>
-          <Text style={styles.sensorValue}>26 °C</Text>
-          {/* <Text style={styles.sensorValue}>{dashboardData.temperature} °C</Text> */}
-        </View>
-        <View style={styles.sensorBox}>
-          <Text style={styles.sensorTitle}>Humidity</Text>
-          <Text style={styles.sensorValue}>50 %</Text>
-          {/* <Text style={styles.sensorValue}>{dashboardData.humidity} %</Text> */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignContent: "center",
+          alignItems: "center",
+          gap: 10,
+          paddingBottom: 10,
+        }}
+      >
+        <Ionicons name="bed-outline" size={32} color="black" />
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>My bedroom</Text>
+          <Text style={styles.subHeader}>{currentDate} | 1 Tạ Quang Bửu</Text>
         </View>
       </View>
-      <View style={styles.autoModeContainer}>
-        <Text style={styles.autoModeText}>Auto Mode</Text>
-        <Switch thumbColor={"#45b6fe"} 
-          value={autoMode}
-          onValueChange={(value) => setAutoMode(value)}
-        />
+      <View style={styles.headerDeviceContainer}>
+        <Text style={styles.header}>Dashboard</Text>
+        <TouchableOpacity onPress={handlePressAlarmDetails}>
+          <Text style={styles.detailsButton}>Details {">"}</Text>
+        </TouchableOpacity>
       </View>
-      {autoMode ? (
-        <View style={styles.lightSettingsContainer}>
-          <View style={styles.lightSetting}>
-            <Text style={styles.lightSettingLabel}>Minimum light</Text>
-            <TextInput
-              style={styles.lightSettingInput}
-              value={minLight}
-              onChangeText={setMinLight}
-              keyboardType="numeric"
-            />
-            <Text style={styles.lightSettingUnit}>cd</Text>
-          </View>
-          <View style={styles.lightSetting}>
-            <Text style={styles.lightSettingLabel}>Maximum light</Text>
-            <TextInput
-              style={styles.lightSettingInput}
-              value={maxLight}
-              onChangeText={setMaxLight}
-              keyboardType="numeric"
-            />
-            <Text style={styles.lightSettingUnit}>cd</Text>
-          </View>
-        </View>
-      ) : (
-        <View>
-          <Text style={styles.deviceTitle}>{devices.length} devices</Text>
-          <FlatList
-            data={devices}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.deviceBox}>
-                <Text style={styles.deviceName}>{item.name}</Text>
-                <Text style={styles.deviceBrand}>{item.brand}</Text>
-                <Switch
-                  value={item.status}
-                  // onValueChange={(value) => handleDeviceStatusChange(item.id, value)}
-                />
-              </View>
-            )}
+      <View style={styles.dashboardContainer}>
+        <View style={styles.dashboardBox}>
+          <Text style={styles.dashboardTitle}>Light</Text>
+          <MaterialIcons
+            style={{ padding: 10 }}
+            name="light-mode"
+            size={32}
+            color="#007AFF"
           />
+          <Text style={styles.dashboardValue}>500 cd</Text>
         </View>
-      )}
+        <View style={styles.dashboardBox}>
+          <Text style={styles.dashboardTitle}>Temperature</Text>
+          <FontAwesome
+            style={{ padding: 10 }}
+            name="thermometer-4"
+            size={32}
+            color="#007AFF"
+          />
+          <Text style={styles.dashboardValue}>26 °C</Text>
+        </View>
+        <View style={styles.dashboardBox}>
+          <Text style={styles.dashboardTitle}>Humidity</Text>
+          <Ionicons
+            style={{ padding: 10 }}
+            name="water-outline"
+            size={32}
+            color="#007AFF"
+          />
+          <Text style={styles.dashboardValue}>50 %</Text>
+        </View>
+      </View>
+      <View style={styles.headerDeviceContainer}>
+        <Text style={styles.header}>Alarms</Text>
+        <TouchableOpacity onPress={handlePressAlarmDetails}>
+          <Text style={styles.detailsButton}>Details {">"}</Text>
+        </TouchableOpacity>
+      </View>
+      <AlarmComponent />
+      <View style={styles.headerDeviceContainer}>
+        <Text style={styles.header}>Devices</Text>
+        <TouchableOpacity onPress={handlePressDeviceDetails}>
+          <Text style={styles.detailsButton}>Details {">"}</Text>
+        </TouchableOpacity>
+      </View>
+      <DeviceComponent />
     </View>
   );
 };
@@ -97,81 +139,81 @@ const DashboardScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+  },
+  headerDeviceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerContainer: {
+    marginTop: 20,
+    marginBottom: 10,
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "left",
   },
-  sensorContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
+  subHeader: {
+    fontSize: 14,
+    color: "#888",
   },
-  sensorBox: {
-    alignItems: 'center',
+  dashboardContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 20,
   },
-  sensorTitle: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  sensorValue: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  autoModeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
+  dashboardBox: {
+    alignItems: "center",
     padding: 10,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: "#f2f2f2",
     borderRadius: 10,
   },
-  autoModeText: {
+  dashboardTitle: {
     fontSize: 16,
+    color: "#888",
   },
-  lightSettingsContainer: {
+  dashboardValue: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+  alarmContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 15,
+    backgroundColor: "#f2f2f2",
+    borderRadius: 10,
+    marginVertical: 20,
+  },
+  alarmTime: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  alarmLabel: {
+    fontSize: 16,
+    color: "#888",
+  },
+  devicesContainer: {
     marginBottom: 20,
   },
-  lightSetting: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  lightSettingLabel: {
-    flex: 1,
+  detailsButton: {
     fontSize: 16,
-  },
-  lightSettingInput: {
-    width: 60,
-    padding: 5,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    textAlign: 'right',
-    marginRight: 10,
-  },
-  lightSettingUnit: {
-    fontSize: 16,
-  },
-  deviceTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    color: "#007AFF",
+    fontWeight: "bold",
   },
   deviceBox: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 15,
     marginBottom: 10,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
     borderRadius: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -179,11 +221,11 @@ const styles = StyleSheet.create({
   },
   deviceName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   deviceBrand: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
   },
 });
 
