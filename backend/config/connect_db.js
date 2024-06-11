@@ -1,15 +1,12 @@
+const mysql = require('mysql2/promise');
 require('dotenv').config()
-var mysql = require("mysql")
 
-var connect_DB = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: process.env.MYSQL_PASSWORD,
-    database: "sbms"
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: process.env.MYSQL_PASSWORD, // replace with your password
+  database: 'sbsm',
+  connectionLimit: 10, // adjust the limit as needed
 });
 
-connect_DB.connect(function(err) {
-    if (err) throw err;
-});
-
-module.exports = connect_DB;
+module.exports = pool;

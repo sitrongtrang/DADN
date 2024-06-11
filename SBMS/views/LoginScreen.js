@@ -34,6 +34,7 @@ const LoginScreen = () => {
       );
 
       if (response.status >= 200 && response.status < 400) {
+        console.log("User log in successfully:", response.data.message);
         const { token } = response.data; // Adjust according to your response structure
         setToken(token); // Set the token in context
         navigation.navigate("Profile"); // Navigate to the profile page

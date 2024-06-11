@@ -12,7 +12,7 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons/faAngleLeft";
 import "axios"
 import axios from "axios";
 
-const LoginScreen = () => {
+const SignupSreen = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -40,7 +40,6 @@ const LoginScreen = () => {
         } catch (error) {
             console.error("Failed to register user:", error);
             setError(error.response.data.message)
-            console.error("Error during form submission:", error);
         }
     }
   return (
@@ -128,4 +127,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default SignupSreen;

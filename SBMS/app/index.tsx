@@ -25,9 +25,6 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen}/>
           <Stack.Screen name="Signup" component={SignupScreen}/>
           <Stack.Screen name="Profile" component={AccountInfoScreen}/>
-          {/* <Stack.Screen name="Devices" component={DeviceScreen} />
-          <Stack.Screen name="FanDetail" component={FanDetailScreen} />
-          <Stack.Screen name="LightDetail" component={LightDetailScreen} /> */}
         </Stack.Navigator>
     </AuthProvider>
   );
