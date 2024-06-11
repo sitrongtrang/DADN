@@ -6,10 +6,12 @@ import {
     TouchableOpacity,
     TextInput,
   } from "react-native";
-import {React, useState, useEffect} from "react";
+import {React, useState, useEffect, useContext} from "react";
+import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft'
 import { AuthContext } from '../context/AuthContext';
+import axios from "axios";
 
   const AccountInfoScreen = () => {
     const navigation = useNavigation();
@@ -58,13 +60,13 @@ import { AuthContext } from '../context/AuthContext';
         fetchData();
       }, []);
     
-    if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <View style={styles.loadingContainer}>
+    //         <ActivityIndicator size="large" color="#0000ff" />
+    //         </View>
+    //     );
+    // }
 
     return (
       <SafeAreaView className="flex-1 bg-white mb-[70]">

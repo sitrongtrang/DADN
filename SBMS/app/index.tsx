@@ -18,7 +18,6 @@ import LoginScreen from '../views/LoginScreen';
 import WelcomeScreen from '../views/WelcomeScreen';
 import AccountInfoScreen from '../views/AccountInfoScreen'
 import SignupScreen from '../views/SignupScreen'
-//Khanh end be
 
 const Stack = createNativeStackNavigator();
 
@@ -31,8 +30,11 @@ const App = () => {
           component={BottomBarNavigation}
           options={{ headerShown: false }}
           />
-
-          <Stack.Screen name="DeviceScreen" component={DeviceScreen} />
+          <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: true, headerTitle: "Dashboard" }}/>
+          <Stack.Screen name="AlarmScreen" component={AlarmScreen} options={{ headerShown: true, headerTitle: "Alarm" }}/>
+          <Stack.Screen name="DeviceScreen" component={DeviceScreen} options={{ headerShown: true, headerTitle: "Devices" }}/>
+          <Stack.Screen name="FanDetail" component={FanDetailScreen}/>
+          <Stack.Screen name="LightDetail" component={LightDetailScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen}/>
           <Stack.Screen name="Login" component={LoginScreen}/>
           <Stack.Screen name="Signup" component={SignupScreen}/>

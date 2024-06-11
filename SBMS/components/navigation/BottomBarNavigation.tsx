@@ -14,6 +14,8 @@ import ProfileScreen from "@/views/ProfileScreen";
 import DeviceScreen from "@/views/DeviceScreen";
 import DashboardScreen from "@/views/DashboardScreen";
 import { View } from "react-native";
+import AccountInfoScreen from "@/views/AccountInfoScreen";
+import HomeScreen from "@/views/HomeScreen";
 // import AddScreen from "@/views/AddScreen"; // Assuming you have an AddScreen component
 
 const Tab = createBottomTabNavigator();
@@ -37,7 +39,7 @@ export default function BottomBarNavigation() {
     >
       <Tab.Screen
         name="Home"
-        component={DashboardScreen}
+        component={HomeScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
@@ -91,6 +93,7 @@ export default function BottomBarNavigation() {
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
+        // component={AccountInfoScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (

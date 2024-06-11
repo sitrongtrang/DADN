@@ -5,7 +5,8 @@ const cors = require('cors');
 const db = require("./config/connect_db")
 const checkAuthMiddleWare = require('./middleware/authenticate')
 const userRoutes = require('./routes/user.route');
-const authRoutes = require('./routes/auth.route')
+const authRoutes = require('./routes/auth.route');
+const deviceRoutes = require('./routes/device.route');
 
 const port = process.env.PORT || 9000;
 const limiter = rateLimit({
@@ -30,6 +31,7 @@ app.use('/api/auth',authRoutes)
 
 app.use(checkAuthMiddleWare)
 app.use('/api/user', userRoutes);
+app.use('/api/device', deviceRoutes);
 
 
 app.listen(port, () => {
