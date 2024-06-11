@@ -1,7 +1,8 @@
 import AlarmComponent from "@/components/AlarmComponent";
 import DeviceComponent from "@/components/DeviceComponent";
-import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
+import DeviceCard from '../components/DeviceCard'
 import {
   View,
   Text,
@@ -9,12 +10,15 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  TextInput
 } from "react-native";
 
 const DashboardScreen = ({ navigation }) => {
   const [devices, setDevices] = useState([
-    { id: "1", name: "Light 1", brand: "Rạng Đông", status: true },
-    { id: "2", name: "Fan 1", brand: "Panasonic", status: false },
+    { id: 1, name: 'Light 1', brand: 'Rạng Đông', icon: 'bulb-outline', type: 'light' },
+    { id: 2, name: 'Fan 1', brand: 'Panasonic', icon: 'wind', type: 'fan' },
+    { id: 3, name: 'Light 2', brand: 'Rạng Đông', icon: 'bulb-outline', type: 'light' },
+    { id: 4, name: 'Fan 2', brand: 'Panasonic', icon: 'wind', type: 'fan' },
   ]);
 
   // Uncomment and use this useEffect for fetching devices from an API
@@ -31,63 +35,21 @@ const DashboardScreen = ({ navigation }) => {
   //   }
   // };
 
-  const renderDevice = ({ item }) => (
-    <View style={styles.deviceBox}>
-      <View>
-        <Text style={styles.deviceName}>{item.name}</Text>
-        <Text style={styles.deviceBrand}>{item.brand}</Text>
-      </View>
-      <Switch
-        value={item.status}
-        onValueChange={(value) => {
-          const updatedDevices = devices.map((device) =>
-            device.id === item.id ? { ...device, status: value } : device
-          );
-          setDevices(updatedDevices);
-        }}
-      />
-    </View>
-  );
-  const getCurrentDate = () => {
-    const date = new Date();
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return date.toLocaleDateString("en-US", options);
-  };
-  const handlePressDeviceDetails = () => {
-    navigation.navigate("DeviceScreen");
-  };
-  const handlePressAlarmDetails = () => {
-    navigation.navigate("DeviceScreen");
-  };
+  const [autoMode, setAutoMode] = useState(true);
+  const [minLight, setMinLight] = useState('200');
+  const [maxLight, setMaxLight] = useState('800');
+  const [minTemp, setMinTemp] = useState('18');
+  const [maxTemp, setMaxTemp] = useState('30');
+  const [stat, setStat] = useState('');
 
-  const currentDate = getCurrentDate();
+  // const setMin = () => {
+  //   if (stat == 'Light') 
+  // }
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignContent: "center",
-          alignItems: "center",
-          gap: 10,
-          paddingBottom: 10,
-        }}
-      >
-        <Ionicons name="bed-outline" size={32} color="black" />
-        <View style={styles.headerContainer}>
-          <Text style={styles.header}>My bedroom</Text>
-          <Text style={styles.subHeader}>{currentDate} | 1 Tạ Quang Bửu</Text>
-        </View>
-      </View>
-      <View style={styles.headerDeviceContainer}>
-        <Text style={styles.header}>Dashboard</Text>
-        <TouchableOpacity onPress={handlePressAlarmDetails}>
-          <Text style={styles.detailsButton}>Details {">"}</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.dashboardContainer}>
-        <View style={styles.dashboardBox}>
+        <TouchableOpacity onPress={() => {autoMode ? setStat('cd') : setStat('')}} style={styles.dashboardBox}>
           <Text style={styles.dashboardTitle}>Light</Text>
           <MaterialIcons
             style={{ padding: 10 }}
@@ -96,8 +58,8 @@ const DashboardScreen = ({ navigation }) => {
             color="#007AFF"
           />
           <Text style={styles.dashboardValue}>500 cd</Text>
-        </View>
-        <View style={styles.dashboardBox}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {autoMode ? setStat('°C') : setStat('')}} style={styles.dashboardBox}>
           <Text style={styles.dashboardTitle}>Temperature</Text>
           <FontAwesome
             style={{ padding: 10 }}
@@ -106,8 +68,8 @@ const DashboardScreen = ({ navigation }) => {
             color="#007AFF"
           />
           <Text style={styles.dashboardValue}>26 °C</Text>
-        </View>
-        <View style={styles.dashboardBox}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {setStat('')}} style={styles.dashboardBox}>
           <Text style={styles.dashboardTitle}>Humidity</Text>
           <Ionicons
             style={{ padding: 10 }}
@@ -116,22 +78,59 @@ const DashboardScreen = ({ navigation }) => {
             color="#007AFF"
           />
           <Text style={styles.dashboardValue}>50 %</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.autoModeContainer}>
+        <Text style={styles.autoModeText}>Auto Mode</Text>
+        <Switch 
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={"dodgerblue"} 
+          value={autoMode}
+          onValueChange={(value) => setAutoMode(value)}
+        />
+      </View>
+      {autoMode ? stat === '' ? (<View></View>) : (
+        <View style={styles.lightSettingsContainer}>
+          <View style={styles.lightSetting}>
+            <Text style={styles.lightSettingLabel}>Minimum {stat === 'cd' ? 'light' : 'temperature'}</Text>
+            <TextInput
+              style={styles.lightSettingInput}
+              value={stat === 'cd' ? minLight : minTemp}
+              onChangeText={stat === 'cd' ? setMinLight : setMinTemp}
+              keyboardType="numeric"
+            />
+            <Text style={styles.lightSettingUnit}>{stat}</Text>
+          </View>
+          <View style={styles.lightSetting}>
+            <Text style={styles.lightSettingLabel}>Maximum {stat === 'cd' ? 'light' : 'temperature'}</Text>
+            <TextInput
+              style={styles.lightSettingInput}
+              value={stat === 'cd' ? maxLight : maxTemp}
+              onChangeText={stat === 'cd' ? setMaxLight : setMaxTemp}
+              keyboardType="numeric"
+            />
+            <Text style={styles.lightSettingUnit}>{stat}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.headerDeviceContainer}>
-        <Text style={styles.header}>Alarms</Text>
-        <TouchableOpacity onPress={handlePressAlarmDetails}>
-          <Text style={styles.detailsButton}>Details {">"}</Text>
-        </TouchableOpacity>
-      </View>
-      <AlarmComponent />
-      <View style={styles.headerDeviceContainer}>
-        <Text style={styles.header}>Devices</Text>
-        <TouchableOpacity onPress={handlePressDeviceDetails}>
-          <Text style={styles.detailsButton}>Details {">"}</Text>
-        </TouchableOpacity>
-      </View>
-      <DeviceComponent />
+      ) : (
+        <View>
+          <Text style={styles.deviceCount}>4 devices</Text>
+          <View style={styles.deviceGrid}>
+            {devices.map(device => (
+              <DeviceCard
+                key={device.id}
+                id = {device.id}
+                name={device.name}
+                brand={device.brand}
+                icon={device.icon}
+                IconComponent={device.type === 'light' ? Ionicons : Feather}
+                type = {device.type}
+                edit = {false}
+              />
+            ))}
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -139,8 +138,13 @@ const DashboardScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerDeviceContainer: {
     flexDirection: "row",
@@ -150,15 +154,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginTop: 20,
     marginBottom: 10,
-  },
-  header: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
-  subHeader: {
-    fontSize: 14,
-    color: "#888",
   },
   dashboardContainer: {
     flexDirection: "row",
@@ -180,52 +175,56 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 5,
   },
-  alarmContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 15,
-    backgroundColor: "#f2f2f2",
+  autoModeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#f2f2f2',
     borderRadius: 10,
-    marginVertical: 20,
   },
-  alarmTime: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  alarmLabel: {
+  autoModeText: {
     fontSize: 16,
-    color: "#888",
   },
-  devicesContainer: {
+  lightSettingsContainer: {
     marginBottom: 20,
   },
-  detailsButton: {
-    fontSize: 16,
-    color: "#007AFF",
-    fontWeight: "bold",
-  },
-  deviceBox: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 15,
+  lightSetting: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 10,
-    backgroundColor: "#f9f9f9",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
   },
-  deviceName: {
+  lightSettingLabel: {
+    flex: 1,
     fontSize: 16,
-    fontWeight: "bold",
   },
-  deviceBrand: {
-    fontSize: 14,
-    color: "#666",
+  lightSettingInput: {
+    width: 60,
+    padding: 5,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    textAlign: 'right',
+    marginRight: 10,
+  },
+  lightSettingUnit: {
+    fontSize: 16,
+  },
+  deviceTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  deviceCount: {
+    color: 'grey',
+    fontSize: 20,
+  },
+  deviceGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 16,
   },
 });
 

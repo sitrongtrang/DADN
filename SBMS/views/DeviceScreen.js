@@ -3,6 +3,7 @@ import {ActivityIndicator, View, Text, Switch, StyleSheet, TouchableOpacity } fr
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather} from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
+import DeviceCard from '../components/DeviceCard'
 import axios from 'axios';
 
 const devices = [
@@ -11,46 +12,6 @@ const devices = [
   { id: 3, name: 'Light 2', brand: 'Rạng Đông', icon: 'bulb-outline', type: 'light' },
   { id: 4, name: 'Fan 2', brand: 'Panasonic', icon: 'wind', type: 'fan' },
 ];
-
-const DeviceCard = ({ id, name, brand, icon, IconComponent, type, edit }) => {
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const navigation = useNavigation();
-    const onDelete = () => {
-      
-    };
-
-    const handlePress = () => {
-      if (type === 'fan') {
-        navigation.navigate('FanDetail', { name });
-      } 
-      if (type === 'light') {
-        navigation.navigate('LightDetail', { name });
-      }
-    };
-  
-    return (
-      <TouchableOpacity style={styles.deviceCard} onPress={handlePress}>
-        <View style={styles.deleteButton}>{edit ? (<TouchableOpacity onPress={onDelete}>
-          <Ionicons name="trash-outline" size={24} color="red" />
-        </TouchableOpacity>) : (<View></View>)}
-        </View>
-        <View style={styles.deviceIcon}>
-          <IconComponent name={icon} size={32} color="dodgerblue" />
-          <Switch thumbColor={"dodgerblue"} 
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-          />
-        </View>
-        <Text style={styles.deviceName}>{name}</Text>
-        <Text style={styles.deviceBrand}>{brand}</Text>
-        <TouchableOpacity style={styles.infoButton}>
-          <Ionicons name="information-circle-outline" size={24} color="dodgerblue" />
-        </TouchableOpacity>
-      </TouchableOpacity>
-    );
-  };
 
 const DeviceScreen = () => {
   const [editMode, setEditMode] = useState(false);
@@ -112,7 +73,7 @@ const DeviceScreen = () => {
           <Ionicons name="add-outline" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.deviceCount}>4 devices</Text>
+      <Text style={styles.deviceCount}>{devices.length} devices</Text>
       <View style={styles.deviceGrid}>
         {devices.map(device => (
           <DeviceCard
